@@ -2,26 +2,39 @@ import './App.css';
 import { ethers } from 'ethers';
 
 function App() {
-  let fabricaForcaContrato;
-  const fabricaForcaContratoEndereco = "";
-  const fabricaForcaContratoABI = [];
+  let contratoForcaCoin;
+  const contratoForcaCoinEndereco = "";
+  const contratoForcaCoinABI = [];
 
-  async function conectaCarteira() {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    provider.send("eth_requestAccounts", []).then(() => {
-      provider.listAccounts().then((accounts) => {
-        const signer = provider.getSigner(accounts[0]);
+  let contratoFabricaForca;
+  const contratoFabricaForcaEndereco = "";
+  const contratoFabricaForcaABI = [];
 
-        fabricaForcaContrato = new ethers.Contract(
-          fabricaForcaContratoEndereco,
-          fabricaForcaContratoABI,
-          signer
-        );
+  let metamask;
+  let contaMetamask;
+
+  async function conectaMetamaskEContratos() {
+    metamask = new ethers.providers.Web3Provider(window.ethereum);
+    metamask.send("eth_requestAccounts", []).then(() => {
+      metamask.listAccounts().then((accounts) => {
+          contaMetamask = metamask.getSigner(accounts[0]);
+
+          contratoForcaCoin = new ethers.Contract(
+            contratoForcaCoinEndereco,
+            contratoForcaCoinABI,
+            contaMetamask
+          );
+
+          contratoFabricaForca = new ethers.Contract(
+            contratoFabricaForcaEndereco,
+            contratoFabricaForcaABI,
+            contaMetamask
+          );
       });
     });
   }
 
-  conectaCarteira();
+  conectaMetamaskEContratos();
 
   return (
     <div className="App">
