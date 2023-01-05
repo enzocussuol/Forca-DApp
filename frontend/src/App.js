@@ -1,47 +1,47 @@
-import './App.css';
 import { ethers } from 'ethers';
+import { CONTRATO_FORCA_COIN_ENDERECO, CONTRATO_FORCA_COIN_ABI, CONTRATO_FABRICA_FORCA_ENDERECO, CONTRATO_FABRICA_FORCA_ABI } from './config';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSkullCrossbones } from '@fortawesome/free-solid-svg-icons'
 
 function App() {
-  let contratoForcaCoin;
-  const contratoForcaCoinEndereco = "";
-  const contratoForcaCoinABI = [];
-
-  let contratoFabricaForca;
-  const contratoFabricaForcaEndereco = "";
-  const contratoFabricaForcaABI = [];
-
   let metamask;
   let contaMetamask;
 
-  async function conectaMetamaskEContratos() {
+  let contratoForcaCoin;
+  let contratoFabricaForca;
+
+  function conectaMetamaskEContratos() {
     metamask = new ethers.providers.Web3Provider(window.ethereum);
     metamask.send("eth_requestAccounts", []).then(() => {
       metamask.listAccounts().then((accounts) => {
-          contaMetamask = metamask.getSigner(accounts[0]);
+        contaMetamask = metamask.getSigner(accounts[0]);
 
-          contratoForcaCoin = new ethers.Contract(
-            contratoForcaCoinEndereco,
-            contratoForcaCoinABI,
-            contaMetamask
-          );
+        contratoForcaCoin = new ethers.Contract(
+          CONTRATO_FORCA_COIN_ENDERECO,
+          CONTRATO_FORCA_COIN_ABI,
+          contaMetamask
+        );
 
-          contratoFabricaForca = new ethers.Contract(
-            contratoFabricaForcaEndereco,
-            contratoFabricaForcaABI,
-            contaMetamask
-          );
+        contratoFabricaForca = new ethers.Contract(
+          CONTRATO_FABRICA_FORCA_ENDERECO,
+          CONTRATO_FABRICA_FORCA_ABI,
+          contaMetamask
+        );
       });
     });
   }
 
-  conectaMetamaskEContratos();
-
   return (
-    <div className="App">
-      <header className="App-header">
-
-      </header>
-    </div>
+    <>
+      <div className="container text-center">
+        <div className="row">
+          <div className="col">
+            <h1>Forca D-App <FontAwesomeIcon icon={faSkullCrossbones} /></h1>
+            <button onClick={conectaMetamaskEContratos}>Iniciar!</button>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 

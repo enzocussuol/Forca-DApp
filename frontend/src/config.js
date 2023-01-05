@@ -1,0 +1,5 @@
+export const CONTRATO_FORCA_COIN_ENDERECO = "";
+export const CONTRATO_FORCA_COIN_ABI = [];
+
+export const CONTRATO_FABRICA_FORCA_ENDERECO = "";
+export const CONTRATO_FABRICA_FORCA_ABI = [];
