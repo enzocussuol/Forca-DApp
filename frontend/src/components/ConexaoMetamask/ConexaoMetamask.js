@@ -6,8 +6,7 @@ export default function ConexaoMetamask({setConectadoAoMetamask}) {
     async function conectaAoMetamask() {
         await metamask.realizaConexao();
 
-        const conectadoAoMetamask = await metamask.verificaConexao();
-        if (conectadoAoMetamask) {
+        if (metamask.conta != null) {
             setConectadoAoMetamask(true);
         } else {
             setConectadoAoMetamask(false);

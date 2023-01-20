@@ -20,4 +20,3 @@ contract Forca {
         require(msg.sender == fabrica, "Voce precisa utilizar a fabrica");
         _;
     }
-}

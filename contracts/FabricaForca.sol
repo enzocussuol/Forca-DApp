@@ -10,4 +10,8 @@ contract FabricaForca {
     function criaForca() public {
         forcas.push(new Forca(msg.sender));
     }
+
+    function getForcas() public view returns(Forca[] memory) {
+        return forcas;
+    }
 }
