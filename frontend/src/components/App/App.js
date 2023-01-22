@@ -3,20 +3,23 @@ import './App.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSkullCrossbones } from '@fortawesome/free-solid-svg-icons'
 import * as metamask from '../../utils/metamask';
-import ConexaoMetamask from '../ConexaoMetamask/ConexaoMetamask';
-import Forca from './../Forca/Forca';
 import Loading from '../Loading/Loading';
+import ConexaoMetamask from '../ConexaoMetamask/ConexaoMetamask';
+import CriacaoForca from '../CriacaoForca/CriacaoForca';
+import ForcasDisponiveis from '../ForcasDisponiveis/ForcasDisponiveis';
+import JogoAtivo from '../JogoAtivo/JogoAtivo';
+import { Forca } from '../../objects/Forca';
 
 function App() {
   const [conectadoAoMetamask, setConectadoAoMetamask] = useState(null);
+  const [forcas, setForcas] = useState([]);
 
   /**
-   * Verifica se o usuário está conectado ao MetaMask a cada 1 segundo.
+   * Refresh principal da aplicação realizado a cada segundo.
    * 
-   * Se não estiver, seta a variável conectadoAoMetamask como false, renderizando o componente ConexaoMetamask.
-   * Se estiver, seta a variável conectadoAoMetamask como true, renderizando o componente Forca.
-   * 
-   * Ao estabelecer a conexão com o MetaMask, os contratos são carregados.
+   * Assegura conexão com o MetaMask;
+   * Assegura que os contratos estão carregados;
+   * Atualiza lista de forcas disponíveis.
    */
   useEffect(() => {
     const interval = setInterval(() => {
@@ -24,6 +27,25 @@ function App() {
         await metamask.verificaConexao().then((resposta) => {
           setConectadoAoMetamask(resposta);
         });
+
+        try {
+          await metamask.contratoFabricaForca.getForcas().then((forcasBuscadas) => {
+            let forcasCorrigidas = [];
+            let forca;
+
+            for (let i = 0; i < forcasBuscadas.length; i++) {
+              forca = new Forca(forcasBuscadas[i].id, 
+                forcasBuscadas[i].tema, forcasBuscadas[i].palavraSecreta);
+              forca.corrige(forcasBuscadas[i].dono, forcasBuscadas[i].status);
+
+              forcasCorrigidas.push(forca);
+            }
+
+            setForcas(forcasCorrigidas);
+          });
+        } catch (e) {
+          alert("Erro ao listar forcas: " + e.message);
+        }
       }
       
       verificaConexaoMetamask();
@@ -44,7 +66,19 @@ function App() {
               !conectadoAoMetamask ? (
                 <ConexaoMetamask setConectadoAoMetamask={setConectadoAoMetamask}/>
               ) : (
-                <Forca />
+                <div className="container text-center">
+                  <div className="row">
+                    <div className="col">
+                      <CriacaoForca />
+                    </div>
+                    <div className="col">
+                      <ForcasDisponiveis forcas={forcas}/>
+                    </div>
+                    <div className="col">
+                      <JogoAtivo />
+                    </div>
+                  </div>
+                </div>
               )
             )}
           </div>

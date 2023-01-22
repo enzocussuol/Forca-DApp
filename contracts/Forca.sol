@@ -2,21 +2,36 @@
 
 pragma solidity ^0.8.0;
 
-contract Forca {
-    address private dono;
-    address private fabrica;
-
-    constructor(address donoInformado) {
-        dono = donoInformado;
-        fabrica = msg.sender;
+library LibForca {
+    enum Status {
+        ABERTA, EM_JOGO, FINALIZADA
     }
 
-    modifier apenasDono(address chamador) {
-        require(chamador == dono, "Voce nao e o dono do contrato");
-        _;
+    struct Objeto {
+        string id;
+        address dono;
+        address jogador;
+        string tema;
+        string palavraSecreta;
+        Status status;
+    }
+}
+
+contract Forca {
+    address private fabrica;
+    LibForca.Objeto private forca;
+
+    constructor(string memory i, address d, string memory t, string memory pS) {
+        fabrica = msg.sender;
+        forca = LibForca.Objeto(i, d, address(0), t, pS, LibForca.Status.ABERTA);
     }
 
     modifier apenasFabrica() {
         require(msg.sender == fabrica, "Voce precisa utilizar a fabrica");
         _;
     }
+
+    function getForca() public view returns (LibForca.Objeto memory) {
+        return forca;
+    }
+}

@@ -1,0 +1,14 @@
+.caixaCabecalho {
+    text-align: start;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btnAtualizarForcas {
+    margin-top: 4px;
+}
+
+.caixaForcasDisponiveis {
+    height: 500px;
+    margin-top: 20px;
+}
