@@ -8,18 +8,13 @@ import ConexaoMetamask from '../ConexaoMetamask/ConexaoMetamask';
 import CriacaoForca from '../CriacaoForca/CriacaoForca';
 import ForcasDisponiveis from '../ForcasDisponiveis/ForcasDisponiveis';
 import JogoAtivo from '../JogoAtivo/JogoAtivo';
-import { Forca } from '../../objects/Forca';
 
 function App() {
   const [conectadoAoMetamask, setConectadoAoMetamask] = useState(null);
-  const [forcas, setForcas] = useState([]);
-
+  const [jogoAtivo, setJogoAtivo] = useState(null);
+  
   /**
    * Refresh principal da aplicação realizado a cada segundo.
-   * 
-   * Assegura conexão com o MetaMask;
-   * Assegura que os contratos estão carregados;
-   * Atualiza lista de forcas disponíveis.
    */
   useEffect(() => {
     const interval = setInterval(() => {
@@ -27,25 +22,6 @@ function App() {
         await metamask.verificaConexao().then((resposta) => {
           setConectadoAoMetamask(resposta);
         });
-
-        try {
-          await metamask.contratoFabricaForca.getForcas().then((forcasBuscadas) => {
-            let forcasCorrigidas = [];
-            let forca;
-
-            for (let i = 0; i < forcasBuscadas.length; i++) {
-              forca = new Forca(forcasBuscadas[i].id, 
-                forcasBuscadas[i].tema, forcasBuscadas[i].palavraSecreta);
-              forca.corrige(forcasBuscadas[i].dono, forcasBuscadas[i].status);
-
-              forcasCorrigidas.push(forca);
-            }
-
-            setForcas(forcasCorrigidas);
-          });
-        } catch (e) {
-          alert("Erro ao listar forcas: " + e.message);
-        }
       }
       
       verificaConexaoMetamask();
@@ -70,12 +46,10 @@ function App() {
                   <div className="row">
                     <div className="col">
                       <CriacaoForca />
+                      <ForcasDisponiveis setJogoAtivo={setJogoAtivo}/>
                     </div>
                     <div className="col">
-                      <ForcasDisponiveis forcas={forcas}/>
-                    </div>
-                    <div className="col">
-                      <JogoAtivo />
+                      <JogoAtivo forca={jogoAtivo} />
                     </div>
                   </div>
                 </div>

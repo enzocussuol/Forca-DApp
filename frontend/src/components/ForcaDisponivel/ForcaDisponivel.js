@@ -3,7 +3,11 @@ import './ForcaDisponivel.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from '@fortawesome/free-solid-svg-icons'
 
-export default function ForcaDisponivel({forca}) {
+export default function ForcaDisponivel({forca, setJogoAtivo}) {
+    async function iniciaForca() {
+        setJogoAtivo(forca);
+    }
+
     return (
         <>
             <div className="caixaForcaDisponivel">
@@ -12,7 +16,7 @@ export default function ForcaDisponivel({forca}) {
                     Dono: {forca.dono}
                 </div>
                 <div className="align-self-center">
-                    <button type="button" className="btn btn-success"><FontAwesomeIcon icon={faPlay} /></button>
+                    <button type="button" className="btn btn-success" onClick={iniciaForca}><FontAwesomeIcon icon={faPlay} /></button>
                 </div>
             </div>
         </>

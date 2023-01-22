@@ -25,7 +25,7 @@ export default function CriacaoForca() {
 
     return (
         <>
-            <h2>Crie uma nova forca!</h2>
+            <h2 className="txtCrieNovaForca">Crie uma nova forca!</h2>
             <div className="caixaFormulario">
                 <label htmlFor="tema" className="form-label">Tema</label>
                 <select className="form-select tema" aria-label="Default select example" id="tema">

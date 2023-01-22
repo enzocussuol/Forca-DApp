@@ -2,6 +2,7 @@
     text-align: start;
     display: flex;
     justify-content: space-between;
+    margin-top: 20px;
 }
 
 .btnAtualizarForcas {
@@ -9,6 +10,6 @@
 }
 
 .caixaForcasDisponiveis {
-    height: 500px;
-    margin-top: 20px;
+    height: 200px;
+    margin-top: 10px;
 }
