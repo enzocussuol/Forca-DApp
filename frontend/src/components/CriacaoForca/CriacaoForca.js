@@ -9,11 +9,11 @@ export default function CriacaoForca() {
         const tema = document.querySelector(".tema");
         const palavraSecreta = document.querySelector(".palavraSecreta");
 
-        const forca = new Forca(uuid().slice(0, 8), tema.value, palavraSecreta.value);
+        const forca = new Forca(uuid().slice(0, 8), tema.value, palavraSecreta.value.toUpperCase());
         await forca.setDono();
 
         try {
-            const transaction = await metamask.contratoFabricaForca.criaForca(forca.id, forca.dono, 
+            const transaction = await metamask.contratoFabricaJogo.criaJogo(forca.id, forca.dono, 
                 forca.tema, forca.palavraSecreta);
             transaction.wait();
         } catch (e) {

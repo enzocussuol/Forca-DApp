@@ -1,4 +1,3 @@
-
 import * as metamask from '../utils/metamask';
 
 export const Status = {

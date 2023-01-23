@@ -1,7 +1,7 @@
 import { React, useEffect } from 'react';
 import './JogoAtivo.css';
 
-export default function JogoAtivo({ forca }) {
+export default function JogoAtivo({ forca, setForca }) {
     useEffect(() => {
         function desenhaBonecoForca() {
             if (parteCorpo === 0) { // Suporte
@@ -62,9 +62,9 @@ export default function JogoAtivo({ forca }) {
         }
 
         function criaBotoesLetras() {
-            const alfabeto = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
-                'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
-                't', 'u', 'v', 'w', 'x', 'y', 'z'];
+            const alfabeto = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+                'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
+                'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
             const caixaBotoesLetra = document.querySelector(".caixaBotoesLetra");
 
@@ -74,26 +74,9 @@ export default function JogoAtivo({ forca }) {
                 botao.type = "button";
                 botao.className = "btn btn-dark btnLetra";
                 botao.innerHTML = alfabeto[i];
-                botao.onclick = function() {
+                botao.onclick = function () {
+                    processaJogada(botao.innerHTML);
                     botao.disabled = true;
-
-                    const caracteres = document.querySelector(".caixaPalavraSecreta");
-                    const palpite = botao.innerHTML;
-                    let acertou = false;
-                    
-                    for (let i = 0; i < forca.palavraSecreta.length; i++) {
-                        const letra = forca.palavraSecreta[i];
-
-                        if (palpite === letra) {
-                            acertou = true;
-
-                            caracteres.children[i].innerHTML = palpite;
-                        }
-                    }
-
-                    if (!acertou) {
-                        desenhaBonecoForca();
-                    }
                 };
 
                 caixaBotoesLetra.appendChild(botao);
@@ -113,21 +96,55 @@ export default function JogoAtivo({ forca }) {
             }
         }
 
+        async function processaJogada(palpite) {
+            const caracteres = document.querySelector(".caixaPalavraSecreta");
+
+            let acertou = false;
+            let letrasAcertadasRodada = 0;
+
+            for (let i = 0; i < forca.palavraSecreta.length; i++) {
+                const letra = forca.palavraSecreta[i];
+
+                if (palpite === letra) {
+                    acertou = true;
+                    letrasAcertadasRodada++;
+
+                    caracteres.children[i].innerHTML = palpite;
+                }
+            }
+
+            letrasAcertadas += letrasAcertadasRodada;
+
+            if (!acertou) {
+                desenhaBonecoForca();
+            }
+
+            if (letrasAcertadas === forca.palavraSecreta.length || parteCorpo > 8) {
+                finalizaForca();
+            }
+        }
+
+        async function finalizaForca() {
+            setForca(null);
+        }
+
         if (forca === null) return;
 
         const canvas = document.querySelector(".bonecoForca");
         const context = canvas.getContext("2d");
+
         let parteCorpo = 0;
+        let letrasAcertadas = 0;
 
         desenhaBonecoForca();
         criaPalavraSecreta();
         criaBotoesLetras();
-    }, [forca]);
+    }, [forca, setForca]);
 
     return (
         <>
             {forca === null ? (
-                <h2>Nenhuma forca selecionada... Selecione uma forca disponível para jogar!</h2>
+                <h3>Nenhuma forca selecionada... Selecione uma forca disponível para jogar!</h3>
             ) : (
                 <div className="align-self-center">
                     <div className="caixaBonecoForca">

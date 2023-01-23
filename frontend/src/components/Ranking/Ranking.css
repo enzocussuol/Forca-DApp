@@ -1,0 +1,8 @@
+.txtRanking {
+    text-align: start;
+}
+
+.caixaCabecalhoRanking {
+    display: flex;
+    justify-content: space-between;
+}

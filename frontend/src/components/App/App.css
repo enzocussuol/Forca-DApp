@@ -6,3 +6,12 @@
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
+.caixaSaldo {
+    text-align: start;
+}
+
+.iconeForcaCoin {
+    color: gold;
+    margin-left: 5px;
+}

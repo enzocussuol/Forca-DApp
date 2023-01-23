@@ -1,37 +1,39 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect, useCallback } from 'react';
 import './ForcasDisponiveis.css'
 import ForcaDisponivel from '../ForcaDisponivel/ForcaDisponivel';
 import { Status } from '../../objects/Forca';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRotateRight } from '@fortawesome/free-solid-svg-icons'
+import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { Forca } from '../../objects/Forca';
 import * as metamask from '../../utils/metamask';
 
-export default function ForcasDisponiveis({setJogoAtivo}) {
+export default function ForcasDisponiveis({ setJogoAtivo }) {
     const [forcas, setForcas] = useState([]);
 
-    async function atualizaForcasDisponiveis() {
+    const atualizaForcasDisponiveis = useCallback(async () => {
         try {
-            await metamask.contratoFabricaForca.getForcas().then((forcasBuscadas) => {
-              let forcasCorrigidas = [];
-              let forca;
-  
-              for (let i = 0; i < forcasBuscadas.length; i++) {
-                forca = new Forca(forcasBuscadas[i].id, 
-                  forcasBuscadas[i].tema, forcasBuscadas[i].palavraSecreta);
-                forca.corrige(forcasBuscadas[i].dono, forcasBuscadas[i].status);
-  
-                forcasCorrigidas.push(forca);
-              }
-  
-              setForcas(forcasCorrigidas);
-            });
-          } catch (e) {
-            alert("Erro ao listar forcas: " + e.message);
-          }
-    }
+            await metamask.contratoFabricaJogo.getForcas().then((forcasBuscadas) => {
+                let forcasCorrigidas = [];
+                let forca;
 
-    atualizaForcasDisponiveis();
+                for (let i = 0; i < forcasBuscadas.length; i++) {
+                    forca = new Forca(forcasBuscadas[i].id,
+                        forcasBuscadas[i].tema, forcasBuscadas[i].palavraSecreta);
+                    forca.corrige(forcasBuscadas[i].dono, forcasBuscadas[i].status);
+
+                    forcasCorrigidas.push(forca);
+                }
+
+                setForcas(forcasCorrigidas);
+            });
+        } catch (e) {
+            alert("Erro ao listar forcas: " + e.message);
+        }
+    }, []);
+
+    useEffect(() => {
+        atualizaForcasDisponiveis();
+    }, [atualizaForcasDisponiveis])
 
     return (
         <>
