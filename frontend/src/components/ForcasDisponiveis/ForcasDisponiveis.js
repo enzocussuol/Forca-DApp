@@ -7,7 +7,7 @@ import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { Forca } from '../../objects/Forca';
 import * as metamask from '../../utils/metamask';
 
-export default function ForcasDisponiveis({ setJogoAtivo }) {
+export default function ForcasDisponiveis({ jogoAtivo, setJogoAtivo }) {
     const [forcas, setForcas] = useState([]);
 
     const atualizaForcasDisponiveis = useCallback(async () => {
@@ -48,7 +48,7 @@ export default function ForcasDisponiveis({ setJogoAtivo }) {
             <div className="overflow-auto caixaForcasDisponiveis">
                 {forcas.map(forca => {
                     if (forca.status === Status.ABERTA) {
-                        return <ForcaDisponivel forca={forca} setJogoAtivo={setJogoAtivo} key={forca.id} />
+                        return <ForcaDisponivel forca={forca} jogoAtivo={jogoAtivo} setJogoAtivo={setJogoAtivo} key={forca.id} />
                     }
 
                     return null;

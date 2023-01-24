@@ -64,7 +64,7 @@ export default function JogoAtivo({ forca, setForca }) {
         function criaBotoesLetras() {
             const alfabeto = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
                 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
-                'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+                'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '-'];
 
             const caixaBotoesLetra = document.querySelector(".caixaBotoesLetra");
 
@@ -144,7 +144,10 @@ export default function JogoAtivo({ forca, setForca }) {
     return (
         <>
             {forca === null ? (
-                <h3>Nenhuma forca selecionada... Selecione uma forca disponível para jogar!</h3>
+                <div>
+                    <img className="hangman" src="images/hangman.png" alt="hangman"></img>
+                    <h3>Nenhuma forca selecionada... Selecione uma forca disponível para jogar!</h3>
+                </div>
             ) : (
                 <div className="align-self-center">
                     <div className="caixaBonecoForca">

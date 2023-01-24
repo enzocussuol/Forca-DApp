@@ -4,18 +4,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from '@fortawesome/free-solid-svg-icons'
 import * as metamask from '../../utils/metamask';
 
-export default function ForcaDisponivel({forca, setJogoAtivo}) {
+export default function ForcaDisponivel({forca, jogoAtivo, setJogoAtivo}) {
     async function iniciaForca() {
+        if (jogoAtivo !== null) {
+            alert("Antes de iniciar uma nova forca, termine o jogo que está em andamento.");
+            return;
+        }
+
         const jogador = await metamask.conta.getAddress();
 
         try {
             const transaction = await metamask.contratoFabricaJogo.iniciaForca(forca.id, jogador);
             transaction.wait();
-        } catch (e) {
-            alert("Erro ao inciar uma forca: " + e);
-        }
 
-        setJogoAtivo(forca);
+            setJogoAtivo(forca);
+        } catch (e) {
+            alert("Erro ao iniciar uma forca: " + e);
+        }
     }
 
     return (

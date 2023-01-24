@@ -22,11 +22,11 @@ contract ForcaCoin is ERC20 {
         _;
     }
 
-    function usuarioJaCadastrado() private view returns (bool){
+    function usuarioJaCadastrado(address endereco) private view returns (bool){
         bool jaCadastrado = false;
 
         for (uint i = 0; i < usuarios.length; i++) {
-            if (usuarios[i] == msg.sender) {
+            if (usuarios[i] == endereco) {
                 jaCadastrado = true;
             }
         }
@@ -34,15 +34,15 @@ contract ForcaCoin is ERC20 {
         return jaCadastrado;
     }
 
-    function saqueInicial() public permissaoSaqueInicial {
-        _mint(msg.sender, 100*10**18);
-
-        if (!usuarioJaCadastrado()) {
-            usuarios.push(msg.sender);
-        }
-    }
-
     function getUsuarios() public view returns (address[] memory) {
         return usuarios;
+    }
+
+    function saqueInicial(address endereco) public permissaoSaqueInicial {
+        _mint(endereco, 100*10**18);
+
+        if (!usuarioJaCadastrado(endereco)) {
+            usuarios.push(endereco);
+        }
     }
 }

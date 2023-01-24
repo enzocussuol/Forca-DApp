@@ -7,10 +7,8 @@ import * as metamask from '../../utils/metamask';
 export default function BoasVindas({setSaldo}) {
     async function sacar() {
         try {
-            const transaction = await metamask.contratoForcaCoin.saqueInicial();
+            const transaction = await metamask.contratoFabricaJogo.saqueInicial(await metamask.conta.getAddress());
             transaction.wait();
-
-            setSaldo(100);
         } catch(e) {
             alert("Erro ao realizar saque inicial: " + e.message);
         }

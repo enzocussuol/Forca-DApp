@@ -13,7 +13,7 @@ export class Usuario {
     }
 
     async setSaldo() {
-        let s = await metamask.contratoForcaCoin.balanceOf(metamask.conta.getAddress());
+        let s = await metamask.contratoFabricaJogo.balanceOf(metamask.conta.getAddress());
         s = (Number(s) / (10 ** 18)).toFixed(8).replace(/\.?0+$/,"");
         this.saldo = s;
     }

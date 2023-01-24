@@ -6,3 +6,8 @@
     display: flex;
     justify-content: space-between;
 }
+
+.tabelaRanking {
+    height: 200px;
+    margin-top: 10px;
+}
