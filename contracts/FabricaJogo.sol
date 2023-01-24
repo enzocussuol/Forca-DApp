@@ -27,16 +27,7 @@ contract FabricaJogo {
     }
 
     function criaJogo(string memory id, address dono, string memory tema, string memory palavraSecreta) public {
-        uint saldo = forcaCoin.balanceOf(dono)/(10**18);
-        
-        console.log(saldo);
-
-        if (saldo < 5) {
-            revert("Saldo insuficiente para criar uma forca");
-        }
-
-        forcaCoin.transferFrom(dono, address(forcaCoin), 5*10**18);
-
+        forcaCoin.pagaCriacaoForca(dono);
         jogos.push(new Jogo(id, dono, tema, palavraSecreta));
     }
 
