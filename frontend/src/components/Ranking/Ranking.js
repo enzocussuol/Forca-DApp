@@ -17,6 +17,7 @@ export default function Ranking() {
             for (let i = 0; i < enderecosUsuarios.length; i++) {
                 const usuario = new Usuario(enderecosUsuarios[i]);
                 await usuario.setSaldo();
+                usuario.corrigeEndereco();
 
                 listaUsuarios.push(usuario);
             }

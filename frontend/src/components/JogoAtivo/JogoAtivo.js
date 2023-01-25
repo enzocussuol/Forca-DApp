@@ -1,5 +1,6 @@
 import { React, useEffect } from 'react';
 import './JogoAtivo.css';
+import * as metamask from '../../utils/metamask';
 
 export default function JogoAtivo({ forca, setForca }) {
     useEffect(() => {
@@ -119,13 +120,36 @@ export default function JogoAtivo({ forca, setForca }) {
                 desenhaBonecoForca();
             }
 
-            if (letrasAcertadas === forca.palavraSecreta.length || parteCorpo > 8) {
-                finalizaForca();
+            if (letrasAcertadas === forca.palavraSecreta.length) {
+                finalizaForca(true, parteCorpo - 1);
+            } else if (parteCorpo > 8) {
+                finalizaForca(false, parteCorpo - 1);
             }
         }
 
-        async function finalizaForca() {
-            setForca(null);
+        async function finalizaForca(vitoria, numErros) {
+            const botoes = document.querySelector(".caixaBotoesLetra").children;
+            for (let i = 0; i < botoes.length; i++) {
+                botoes[i].disabled = true;
+            }
+
+            try {
+                const recompensaCriador = numErros + 5;
+
+                const transaction = await metamask.contratoFabricaJogo.finalizaForca(forca.id, vitoria, recompensaCriador);
+                transaction.wait();
+
+                if (vitoria) {
+                    alert("Parabêns, você ganhou! Você recebeu 10 FCs e o criador recebeu "
+                        + recompensaCriador + " FCs.");
+                } else {
+                    alert("Que pena, você perdeu... Suas FCs e as do criador foram perdidas.");
+                }
+
+                setForca(null);
+            } catch (e) {
+                alert("Erro ao finalizar a forca: " + e.message);
+            }
         }
 
         if (forca === null) return;

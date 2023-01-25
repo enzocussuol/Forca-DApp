@@ -47,6 +47,6 @@ contract Jogo {
     }
 
     function finalizaForca() public apenasFabrica {
-        
+        forca.status = LibForca.Status.FINALIZADA;
     }
 }

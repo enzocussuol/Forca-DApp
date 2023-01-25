@@ -18,7 +18,7 @@ contract ForcaCoin is ERC20 {
     }
 
     modifier permissaoPagaCriacaoForca(address endereco) {
-        require(saldosUsuarios[endereco] >= 5, "Para criar uma forca, voce precisa de ao menos 5 FCS");
+        require(saldosUsuarios[endereco] >= 5, "Para criar uma forca, voce precisa de ao menos 5 FCs");
         _;
     }
 
@@ -37,5 +37,18 @@ contract ForcaCoin is ERC20 {
 
     function pagaCriacaoForca(address endereco) public permissaoPagaCriacaoForca(endereco) {
         saldosUsuarios[endereco] -= 5*10**18;
+    }
+
+    function pagaIniciacaoForca(address endereco) public {
+        if (saldosUsuarios[endereco] < 5) {
+            revert("Para iniciar uma forca, voce precisa de ao menos 5 FCs");
+        }
+
+        saldosUsuarios[endereco] -= 5*10**18;
+    }
+
+    function recompensaVitoriaForca(address jogador, address criador, uint recompensaCriador) public {
+        saldosUsuarios[jogador] += 10*10**18;
+        saldosUsuarios[criador] += recompensaCriador*10**18;
     }
 }

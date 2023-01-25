@@ -55,10 +55,17 @@ contract FabricaJogo {
     function iniciaForca(string memory id, address jogador) public {
         Jogo jogo = getJogoPorId(id);
         jogo.iniciaForca(jogador);
+        forcaCoin.pagaIniciacaoForca(jogador);
     }
 
-    function finalizaForca(string memory id) public {
+    function finalizaForca(string memory id, bool vitoria, uint recompensaCriador) public {
         Jogo jogo = getJogoPorId(id);
         jogo.finalizaForca();
+
+        if (vitoria) {
+            LibForca.Forca memory forca = jogo.getForca();
+            console.log(recompensaCriador);
+            forcaCoin.recompensaVitoriaForca(forca.jogador, forca.dono, recompensaCriador);
+        }
     }
 }
