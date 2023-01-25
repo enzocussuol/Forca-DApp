@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useCallback } from 'react';
+import { React, useEffect, useCallback } from 'react';
 import './ForcasDisponiveis.css'
 import ForcaDisponivel from '../ForcaDisponivel/ForcaDisponivel';
 import { Status } from '../../objects/Forca';
@@ -7,9 +7,7 @@ import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { Forca } from '../../objects/Forca';
 import * as metamask from '../../utils/metamask';
 
-export default function ForcasDisponiveis({ jogoAtivo, setJogoAtivo }) {
-    const [forcas, setForcas] = useState([]);
-
+export default function ForcasDisponiveis({ forcas, setForcas, jogoAtivo, setJogoAtivo }) {
     const atualizaForcasDisponiveis = useCallback(async () => {
         try {
             await metamask.contratoFabricaJogo.getForcas().then((forcasBuscadas) => {
@@ -29,7 +27,7 @@ export default function ForcasDisponiveis({ jogoAtivo, setJogoAtivo }) {
         } catch (e) {
             alert("Erro ao listar forcas: " + e.message);
         }
-    }, []);
+    }, [setForcas]);
 
     useEffect(() => {
         atualizaForcasDisponiveis();
@@ -48,7 +46,7 @@ export default function ForcasDisponiveis({ jogoAtivo, setJogoAtivo }) {
             <div className="overflow-auto caixaForcasDisponiveis">
                 {forcas.map(forca => {
                     if (forca.status === Status.ABERTA) {
-                        return <ForcaDisponivel forca={forca} jogoAtivo={jogoAtivo} setJogoAtivo={setJogoAtivo} key={forca.id} />
+                        return <ForcaDisponivel forca={forca} forcas={forcas} setForcas={setForcas} jogoAtivo={jogoAtivo} setJogoAtivo={setJogoAtivo} key={forca.id} />
                     }
 
                     return null;

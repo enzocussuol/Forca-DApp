@@ -17,6 +17,7 @@ function App() {
   const [conectadoAoMetamask, setConectadoAoMetamask] = useState(null);
   const [saldo, setSaldo] = useState(0);
   const [jogoAtivo, setJogoAtivo] = useState(null);
+  const [forcas, setForcas] = useState([]);
   
   useEffect(() => {
     const interval = setInterval(() => {
@@ -68,7 +69,7 @@ function App() {
                     <div className="col">
                       <Saldo saldo={saldo} setSaldo={setSaldo} />
                       <CriacaoForca />
-                      <ForcasDisponiveis jogoAtivo={jogoAtivo} setJogoAtivo={setJogoAtivo} />
+                      <ForcasDisponiveis forcas={forcas} setForcas={setForcas} jogoAtivo={jogoAtivo} setJogoAtivo={setJogoAtivo} />
                     </div>
                     <div className="col align-self-center">
                       <JogoAtivo forca={jogoAtivo} setForca={setJogoAtivo} />

@@ -150,6 +150,7 @@ export default function JogoAtivo({ forca, setForca }) {
                 </div>
             ) : (
                 <div className="align-self-center">
+                    <h4 className="temaForca">Tema: {forca.tema}</h4>
                     <div className="caixaBonecoForca">
                         <canvas className="bonecoForca" width="180" height="250"></canvas>
                     </div>

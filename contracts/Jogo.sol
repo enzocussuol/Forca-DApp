@@ -31,11 +31,17 @@ contract Jogo {
         _;
     }
 
+    modifier permissaoIniciaForca(address jogador) {
+        require(forca.dono != jogador, "Voce nao pode jogar a sua propria forca");
+        require(forca.status == LibForca.Status.ABERTA, "Nao e possivel iniciar uma forca que nao esteja aberta... Por favor, atualize a lista de forcas disponiveis");
+        _;
+    }
+
     function getForca() public view returns (LibForca.Forca memory) {
         return forca;
     }
 
-    function iniciaForca(address jogador) public apenasFabrica {
+    function iniciaForca(address jogador) public apenasFabrica permissaoIniciaForca(jogador) {
         forca.jogador = jogador;
         forca.status = LibForca.Status.EM_JOGO;
     }

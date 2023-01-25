@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from '@fortawesome/free-solid-svg-icons'
 import * as metamask from '../../utils/metamask';
 
-export default function ForcaDisponivel({forca, jogoAtivo, setJogoAtivo}) {
+export default function ForcaDisponivel({forca, forcas, setForcas, jogoAtivo, setJogoAtivo}) {
     async function iniciaForca() {
         if (jogoAtivo !== null) {
             alert("Antes de iniciar uma nova forca, termine o jogo que está em andamento.");
@@ -18,8 +18,16 @@ export default function ForcaDisponivel({forca, jogoAtivo, setJogoAtivo}) {
             transaction.wait();
 
             setJogoAtivo(forca);
+
+            for (let i = 0; i < forcas.length; i++) {
+                if (forcas[i].id === forca.id) {
+                    forcas.splice(i, 1);
+                    break;
+                }
+            }
+            setForcas(forcas);
         } catch (e) {
-            alert("Erro ao iniciar uma forca: " + e);
+            alert("Erro ao iniciar uma forca: " + e.message);
         }
     }
 
