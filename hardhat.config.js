@@ -24,6 +24,10 @@ module.exports = {
   networks: {
     hardhat: {
       chainId: 1337
+    },
+    goerli: {
+      url: "https://eth-goerli.g.alchemy.com/v2/dZ-RnqyXgl26kADM5tuLN8hF8cPMSBbl",
+      accounts: [`0x2c31c5453864426aac145f36b8fd248343c2486f2ee82b6ae99534ba532870ec`]
     }
   },
   solidity: "0.8.4",
