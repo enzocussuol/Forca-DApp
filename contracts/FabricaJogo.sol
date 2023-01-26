@@ -10,6 +10,11 @@ contract FabricaJogo {
     ForcaCoin forcaCoin;
     Jogo[] public jogos;
 
+    event atualizacaoSaldo(address endereco, uint novoSaldo);
+    event criacaoForca(LibForca.Forca novaForca);
+    event iniciacaoForca(string idForcaIniciada);
+    event atualizacaoRanking();
+
     constructor() {
         forcaCoin = new ForcaCoin();
     }
@@ -19,16 +24,25 @@ contract FabricaJogo {
     }
 
     function saqueInicial(address endereco) public {
-        return forcaCoin.saqueInicial(endereco);
+        uint novoSaldo = forcaCoin.saqueInicial(endereco);
+
+        emit atualizacaoSaldo(endereco, novoSaldo);
+        emit atualizacaoRanking();
     }
 
-    function balanceOf(address endereco) public view returns (uint){
+    function balanceOf(address endereco) public view returns (uint) {
         return forcaCoin.balanceOf(endereco);
     }
 
     function criaJogo(string memory id, address dono, string memory tema, string memory palavraSecreta) public {
-        forcaCoin.pagaCriacaoForca(dono);
-        jogos.push(new Jogo(id, dono, tema, palavraSecreta));
+        uint novoSaldo = forcaCoin.pagaCriacaoForca(dono);
+
+        Jogo novoJogo = new Jogo(id, dono, tema, palavraSecreta);
+        jogos.push(novoJogo);
+
+        emit atualizacaoSaldo(dono, novoSaldo);
+        emit criacaoForca(novoJogo.getForca());
+        emit atualizacaoRanking();
     }
 
     function getJogoPorId(string memory id) public view returns(Jogo) {
@@ -55,7 +69,15 @@ contract FabricaJogo {
     function iniciaForca(string memory id, address jogador) public {
         Jogo jogo = getJogoPorId(id);
         jogo.iniciaForca(jogador);
-        forcaCoin.pagaIniciacaoForca(jogador);
+
+        uint novoSaldo = forcaCoin.pagaIniciacaoForca(jogador);
+
+        LibForca.Forca memory forca = jogo.getForca();
+        string memory idForcaIniciada = forca.id;
+
+        emit atualizacaoSaldo(jogador, novoSaldo);
+        emit iniciacaoForca(idForcaIniciada);
+        emit atualizacaoRanking();
     }
 
     function finalizaForca(string memory id, bool vitoria, uint recompensaCriador) public {
@@ -65,7 +87,13 @@ contract FabricaJogo {
         if (vitoria) {
             LibForca.Forca memory forca = jogo.getForca();
             console.log(recompensaCriador);
-            forcaCoin.recompensaVitoriaForca(forca.jogador, forca.dono, recompensaCriador);
+
+            uint novoSaldoCriador = forcaCoin.recompensaCriadorForca(forca.dono, recompensaCriador);
+            uint novoSaldoJogador = forcaCoin.recompensaJogadorForca(forca.jogador);
+            
+            emit atualizacaoSaldo(forca.dono, novoSaldoCriador);
+            emit atualizacaoSaldo(forca.jogador, novoSaldoJogador);
+            emit atualizacaoRanking();
         }
     }
 }

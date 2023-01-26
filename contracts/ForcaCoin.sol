@@ -30,25 +30,37 @@ contract ForcaCoin is ERC20 {
         return usuarios;
     }
 
-    function saqueInicial(address endereco) public permissaoSaqueInicial(endereco) {
+    function saqueInicial(address endereco) public permissaoSaqueInicial(endereco) returns (uint) {
         saldosUsuarios[endereco] = 100*10**18;
         usuarios.push(endereco);
+
+        return saldosUsuarios[endereco];
     }
 
-    function pagaCriacaoForca(address endereco) public permissaoPagaCriacaoForca(endereco) {
+    function pagaCriacaoForca(address endereco) public permissaoPagaCriacaoForca(endereco) returns (uint) {
         saldosUsuarios[endereco] -= 5*10**18;
+
+        return saldosUsuarios[endereco];
     }
 
-    function pagaIniciacaoForca(address endereco) public {
+    function pagaIniciacaoForca(address endereco) public returns (uint) {
         if (saldosUsuarios[endereco] < 5) {
             revert("Para iniciar uma forca, voce precisa de ao menos 5 FCs");
         }
 
         saldosUsuarios[endereco] -= 5*10**18;
+        return saldosUsuarios[endereco];
     }
 
-    function recompensaVitoriaForca(address jogador, address criador, uint recompensaCriador) public {
-        saldosUsuarios[jogador] += 10*10**18;
+    function recompensaCriadorForca(address criador, uint recompensaCriador) public returns (uint) {
         saldosUsuarios[criador] += recompensaCriador*10**18;
+
+        return saldosUsuarios[criador];
+    }
+
+    function recompensaJogadorForca(address jogador) public returns (uint) {
+        saldosUsuarios[jogador] += 10*10**18;
+
+        return saldosUsuarios[jogador];
     }
 }

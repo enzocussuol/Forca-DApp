@@ -6,7 +6,7 @@ let provider = new ethers.providers.Web3Provider(window.ethereum);
 export let conta = null;
 
 export let contratoFabricaJogo = null;
-const FABRICA_JOGO_ENDERECO = "0x9A9f2CCfdE556A7E9Ff0848998Aa4a0CFD8863AE";
+const FABRICA_JOGO_ENDERECO = "0x8f86403A4DE0BB5791fa46B8e795C547942fE4Cf";
 
 export async function verificaConexao() {
     let contaDetectada = false;

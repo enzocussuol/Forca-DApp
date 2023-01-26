@@ -24,7 +24,7 @@ export default function CriacaoForca() {
         let palavraSecretaCorrigida = palavraSecreta.value.replace(" ", "-");
         palavraSecretaCorrigida = palavraSecretaCorrigida.toUpperCase();
 
-        const forca = new Forca(uuid().slice(0, 8), tema.value, palavraSecretaCorrigida);
+        const forca = new Forca(uuid(), tema.value, palavraSecretaCorrigida);
         await forca.setDono();
 
         try {
@@ -45,7 +45,7 @@ export default function CriacaoForca() {
                 <label htmlFor="tema" className="form-label">Tema</label>
                 <select className="form-select tema" aria-label="Default select example" id="tema">
                     <option defaultValue="Animais">Animais</option>
-                    <option value="Séries e filmes">Séries</option>
+                    <option value="Séries e filmes">Séries e filmes</option>
                     <option value="Times de futebol">Times de futebol</option>
                     <option value="Cores">Cores</option>
                     <option value="Objetos">Objetos</option>
