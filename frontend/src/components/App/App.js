@@ -171,13 +171,13 @@ function App() {
 
 			atualizaRanking();
 			escutaAtualizacaoRanking();
-		}
 
-		return () => {
-			metamask.contratoFabricaJogo.removeAllListeners("atualizacaoSaldo");
-			metamask.contratoFabricaJogo.removeAllListeners("criacaoForca");
-			metamask.contratoFabricaJogo.removeAllListeners("iniciacaoForca");
-			metamask.contratoFabricaJogo.removeAllListeners("atualizacaoRanking");
+			return () => {
+				metamask.contratoFabricaJogo.removeAllListeners("atualizacaoSaldo");
+				metamask.contratoFabricaJogo.removeAllListeners("criacaoForca");
+				metamask.contratoFabricaJogo.removeAllListeners("iniciacaoForca");
+				metamask.contratoFabricaJogo.removeAllListeners("atualizacaoRanking");
+			}
 		}
 	}, [conectadoAoMetamask]);
 
