@@ -58,6 +58,7 @@ function App() {
 						if (enderecoConta === endereco) {
 							novoSaldo = (Number(novoSaldo) / (10 ** 18)).toFixed(8).replace(/\.?0+$/, "");
 							setSaldo(novoSaldo);
+							atualizaRanking();
 						}
 					})
 				});

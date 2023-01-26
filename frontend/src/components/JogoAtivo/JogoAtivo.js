@@ -47,16 +47,6 @@ export default function JogoAtivo({ forca, setForca }) {
                 context.moveTo(100, 140);
                 context.lineTo(125, 190);
                 context.stroke();
-            } else if (parteCorpo === 7) { // Pe Direito
-                context.beginPath();
-                context.moveTo(82, 190);
-                context.lineTo(70, 185);
-                context.stroke();
-            } else if (parteCorpo === 8) { // Pe Esquerdo
-                context.beginPath();
-                context.moveTo(122, 190);
-                context.lineTo(135, 185);
-                context.stroke();
             }
 
             parteCorpo++;
@@ -122,7 +112,7 @@ export default function JogoAtivo({ forca, setForca }) {
 
             if (letrasAcertadas === forca.palavraSecreta.length) {
                 finalizaForca(true, parteCorpo - 1);
-            } else if (parteCorpo > 8) {
+            } else if (parteCorpo > 6) {
                 finalizaForca(false, parteCorpo - 1);
             }
         }
@@ -143,7 +133,7 @@ export default function JogoAtivo({ forca, setForca }) {
                     alert("Parabêns, você ganhou! Você recebeu 10 FCs e o criador recebeu "
                         + recompensaCriador + " FCs.");
                 } else {
-                    alert("Que pena, você perdeu... Suas FCs e as do criador foram perdidas.");
+                    alert("Que pena, você perdeu... Suas FCs e as do criador foram perdidas. A palavra secreta era: " + forca.palavraSecreta + ".");
                 }
 
                 setForca(null);
