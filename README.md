@@ -1,13 +1,7 @@
-# Sample Hardhat Project
+# Forca D-App
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+O Forca D-App é uma aplicação descentralizada que roda em cima da rede Goerli, uma rede de testes da Ethereum. O projeto surgiu como trabalho final da disciplina de Blockchain da UFES.
 
-Try running some of the following tasks:
+Jogue agora mesmo e ganhe ForcaCoins por este [link](forca-d-app.vercel.app).
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.js
-```
+Lembre-se que é necessário ter a extensão [Metamask](https://metamask.zendesk.com/hc/pt-br) instalada, além de uma chave Ethereum e alguns GoerliETH para pagar pelas taxas de gás.
