@@ -58,7 +58,6 @@ function App() {
 						if (enderecoConta === endereco) {
 							novoSaldo = (Number(novoSaldo) / (10 ** 18)).toFixed(8).replace(/\.?0+$/, "");
 							setSaldo(novoSaldo);
-							atualizaRanking();
 						}
 					})
 				});
@@ -137,26 +136,32 @@ function App() {
 				try {
 					const listaUsuarios = [];
 					const enderecosUsuarios = await metamask.contratoFabricaJogo.getUsuarios();
+					let usuario;
 		
 					for (let i = 0; i < enderecosUsuarios.length; i++) {
-						const usuario = new Usuario(enderecosUsuarios[i]);
+						usuario = new Usuario(enderecosUsuarios[i]);
 						await usuario.setSaldo();
 						usuario.corrigeEndereco();
 		
 						listaUsuarios.push(usuario);
 					}
+
+					console.log(listaUsuarios);
 		
 					listaUsuarios.sort(function (u1, u2) {
-						if (u1.saldo > u2.saldo) {
-							return -1;
-						}
-						
-						if (u1.saldo < u2.saldo) {
-							return 1;
-						}
+						const saldo1 = Number(u1.saldo);
+						const saldo2 = Number(u2.saldo);
 
-						return 0;
+						if (saldo1 > saldo2) {
+							return -1;
+						} else if (saldo1 < saldo2) {
+							return 1;
+						} else {
+							return 0;
+						}
 					});
+
+					console.log(listaUsuarios);
 		
 					setUsuarios(listaUsuarios);
 				} catch (e) {
