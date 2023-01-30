@@ -11,7 +11,7 @@ export default function Regras() {
                     <h2 className="tituloRegras">Regras <FontAwesomeIcon icon={faScaleBalanced} /></h2>
                     <ul className="list-group list-group-flush">
                         <li className="list-group-item">O custo de criação de uma forca é de 5 FCs</li>
-                        <li className="list-group-item">A palavra secreta só pode conter letras sem acentos e espaços</li>
+                        <li className="list-group-item">A palavra secreta só pode conter letras (sem acentos) e espaços</li>
                         <li className="list-group-item">Todos os espaços da palavra secreta são transformados em hífens (-)</li>
                         <li className="list-group-item">O custo para jogar uma forca também é de 5 FCs</li>
                         <li className="list-group-item">Se o jogador não acertar a palavra secreta, tanto as FCs dele quanto as do criador são perdidas</li>
